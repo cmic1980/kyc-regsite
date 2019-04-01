@@ -66,7 +66,7 @@
     cnpm install
     npm run dev
 
-## 命令列表：
+## 命令列表
 
     #开启本地开发服务器，监控项目文件的变化，实时构建并自动刷新浏览器，浏览器访问 http://localhost:8081
     npm run dev

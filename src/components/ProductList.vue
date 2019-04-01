@@ -1,8 +1,4 @@
 <template>
-
-
-
-
     <el-table
             :data="products"
             stripe
