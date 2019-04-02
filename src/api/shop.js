@@ -1,15 +1,23 @@
 /**
  * Mocking client-server processing
  */
-const _products = [
-    {"id": 1, "title": "iPad 4 Mini", "price": 500.01, "inventory": 2},
-    {"id": 2, "title": "H&M T-Shirt White", "price": 10.99, "inventory": 10},
-    {"id": 3, "title": "Charli XCX - Sucker CD", "price": 19.99, "inventory": 5}
-]
+
+import {fetch as fetchPolyfill} from 'whatwg-fetch'
 
 export default {
     getProducts (cb) {
-        setTimeout(() => cb(_products), 100)
+        fetchPolyfill('/api/product/list')
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (data) {
+                console.log('parsed json', data)
+                let productList = data
+                setTimeout(() => cb(productList), 100)
+            })
+            .catch(function (ex) {
+                console.log('parsing failed', ex)
+            })
     },
 
     buyProducts (products, cb, errorCb) {

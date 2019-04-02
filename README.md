@@ -68,15 +68,18 @@
 
 ## 命令列表
 
-    #开启本地开发服务器，监控项目文件的变化，实时构建并自动刷新浏览器，浏览器访问 http://localhost:8081
+    #开启本地开发服务器，通过proxytable设置连接后端服务器，浏览器访问 http://localhost:8080
     npm run dev
+
+    #开启本地开发服务器，使用mock文件下js模拟后端服务器，浏览器访问 http://localhost:8080
+    npm run mock
 
     #使用生产环境配置构建项目，构建好的文件会输出到 "dist" 目录，
     npm run build
-    
+
     #运行单元测试
     npm run unit
-    
+
 ## 前后端分离
 
 项目基于 spa 方式实现前后端分离，开发时服务器通过 nginx 区分前端页面和后端接口请求，分发到不同服务。前端物理上只有一个入口页面, 路由由前端控制（基于vue-router），根据不同的 url 加载相应数据和组件进行渲染。
@@ -89,18 +92,15 @@
 开发时，接口的 mock 数据统一放在 mock 目录下，每个文件内如下：
 
 
-    module.exports = {
-    
-      // 接口地址
-      api: '/api/hello',
-    
-      // 返回数据 参考http://expressjs.com/zh-cn/4x/api.html
-      response: function (req, res) {
-        res.send(`
-          <p>hello vue!</p>
-        `);
-      }
-    }
+const proxy = {
+    'GET /api/product/list': [{"id": 1, "title": "iPad 4 Mini", "price": 500.01, "inventory": 2}, {
+        "id": 2,
+        "title": "H&M T-Shirt White",
+        "price": 10.99,
+        "inventory": 10
+    }]
+};
+module.exports = proxy;
 
 
 ## 模块化
@@ -122,11 +122,14 @@
         └──view3.vue
             ├──component5.vue
             ……
- 
+
 ## 单元测试
 
 可以为每个组件编写单元测试，放在 `test/unit/specs` 目录下面, 单元测试用例的目录结构建议和测试的文件保持一致（相对于src），每个测试用例文件名以 `.spec.js`结尾。
 执行 `npm run unit` 时会遍历所有的 `spec.js` 文件，产出测试报告在 `test/unit/coverage` 目录。
+
+
+
 
 ## 命名规范
 
@@ -154,7 +157,7 @@ a. 变量
     // 好的命名方式
     var maxCount = 10;
     var tableTitle = 'LoginTable';
-     
+
     // 不好的命名方式
     var setCount = 10;
     var getTitle = 'LoginTable';
@@ -180,7 +183,7 @@ b. 函数
     function canRead() {
         return true;
     }
-     
+
     // 获取名称
     function getName() {
         return this.name;
@@ -212,10 +215,10 @@ d. javascript 文件命名
 
     cart.js
     vue-loader.js
-    
+
     webpack.dev.js
     webpack.prod.js
-    
+
 e. Vue Component及View
 
 命名方法：Pascal Case命名法。
